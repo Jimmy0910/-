@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { apiRequest } from '../utils/api';
-import { LogIn, UserPlus, BookOpen, Key, User } from 'lucide-react';
+import { LogIn, UserPlus, Key, User } from 'lucide-react';
+import logoUrl from '../assets/logo.png';
 
 interface AuthPageProps {
   onLoginSuccess: (user: { id: string; username: string }) => void;
@@ -69,22 +70,20 @@ export default function AuthPage({ onLoginSuccess }: AuthPageProps) {
           pointerEvents: 'none'
         }} />
 
-        <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '60px',
-            height: '60px',
-            borderRadius: '50%',
-            background: 'var(--accent-gradient)',
-            color: '#fff',
-            marginBottom: '15px',
-            boxShadow: '0 8px 16px rgba(99,102,241,0.2)'
-          }}>
-            <BookOpen size={30} />
-          </div>
-          <h2 style={{ fontSize: '1.75rem', marginBottom: '8px' }}>線上錯題本</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '30px' }}>
+          <img 
+            src={logoUrl} 
+            alt="PobiNotes Logo" 
+            style={{
+              width: '64px',
+              height: '64px',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              marginBottom: '15px',
+              boxShadow: '0 8px 16px rgba(99,102,241,0.2)'
+            }}
+          />
+          <h2 style={{ fontSize: '1.75rem', marginBottom: '8px' }}>PobiNotes-線上錯題本</h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
             {isLogin ? '歡迎回來！請登入您的帳戶' : '立即註冊，建立專屬的錯題本'}
           </p>

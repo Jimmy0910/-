@@ -5,7 +5,8 @@ import Dashboard from './components/Dashboard';
 import TemplateManager from './components/TemplateManager';
 import MistakeList from './components/MistakeList';
 import ExportPDF from './components/ExportPDF';
-import { LogOut, Sun, Moon, BookOpen, Loader2 } from 'lucide-react';
+import { LogOut, Sun, Moon, Loader2 } from 'lucide-react';
+import logoUrl from './assets/logo.png';
 
 interface User {
   id: string;
@@ -127,19 +128,17 @@ export default function App() {
         zIndex: 50
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={() => handleSelectChapter(null, null)}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'var(--accent-gradient)',
-            color: '#fff',
-            width: '36px',
-            height: '36px',
-            borderRadius: 'var(--radius-sm)'
-          }}>
-            <BookOpen size={20} />
-          </div>
-          <h1 style={{ fontSize: '1.25rem', fontWeight: 700 }} className="title-gradient">線上錯題本</h1>
+          <img 
+            src={logoUrl} 
+            alt="PobiNotes Logo" 
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: 'var(--radius-sm)',
+              objectFit: 'cover'
+            }}
+          />
+          <h1 style={{ fontSize: '1.25rem', fontWeight: 700 }} className="title-gradient">PobiNotes-線上錯題本</h1>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
