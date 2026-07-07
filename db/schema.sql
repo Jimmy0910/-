@@ -46,3 +46,11 @@ CREATE TABLE IF NOT EXISTS mistakes (
     FOREIGN KEY (chapter_id) REFERENCES chapters(id) ON DELETE CASCADE,
     FOREIGN KEY (template_id) REFERENCES templates(id) ON DELETE CASCADE
 );
+
+-- Images Table (Stored in D1 database)
+CREATE TABLE IF NOT EXISTS images (
+    key TEXT PRIMARY KEY,
+    data BLOB NOT NULL,
+    mime_type TEXT NOT NULL,
+    created_at INTEGER NOT NULL
+);

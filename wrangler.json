@@ -1,5 +1,12 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "pobinotes-mistake-notebook",
-  "pages_build_output_dir": "dist"
+  "pages_build_output_dir": "dist",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mistake-notebook-db",
+      "database_id": "e6056fb9-e31e-4bb4-9520-cd4eddf2ece7"
+    }
+  ]
 }

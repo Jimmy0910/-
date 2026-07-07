@@ -1,12 +1,12 @@
 interface Env {
-  BUCKET: R2Bucket;
+  DB: D1Database;
 }
 
 interface UserContext {
   user?: { id: string; username: string };
 }
 
-// POST /api/images/upload - Upload a raw image file to R2
+// POST /api/images/upload - Upload a raw image file to D1
 export const onRequestPost: PagesFunction<Env, any, UserContext> = async (context) => {
   try {
     const { request, env } = context;
@@ -32,13 +32,10 @@ export const onRequestPost: PagesFunction<Env, any, UserContext> = async (contex
     const extension = contentType.split('/')[1] || 'jpg';
     const key = `${crypto.randomUUID()}.${extension}`;
 
-    // Upload to Cloudflare R2
-    await env.BUCKET.put(key, body, {
-      httpMetadata: {
-        contentType: contentType,
-        cacheControl: 'public, max-age=604800' // cache for 1 week
-      }
-    });
+    // Store image blob inside D1 database
+    await env.DB.prepare(
+      'INSERT INTO images (key, data, mime_type, created_at) VALUES (?, ?, ?, ?)'
+    ).bind(key, body, contentType, Date.now()).run();
 
     return new Response(JSON.stringify({ success: true, key }), {
       status: 201,
