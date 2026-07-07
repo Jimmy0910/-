@@ -1,18 +1,5 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "mistake-notebook",
-  "pages_build_output_dir": "dist",
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "mistake-notebook-db",
-      "database_id": "11111111-2222-3333-4444-555555555555"
-    }
-  ],
-  "r2_buckets": [
-    {
-      "binding": "BUCKET",
-      "bucket_name": "mistake-notebook-bucket"
-    }
-  ]
+  "pages_build_output_dir": "dist"
 }
