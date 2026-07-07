@@ -5,8 +5,8 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "mistake-notebook-db",
-      "database_id": "e6056fb9-e31e-4bb4-9520-cd4eddf2ece7"
+      "database_name": "mistake-notebook",
+      "database_id": "71f8d9e4-98e8-44e4-8a36-d448a19f64f0"
     }
   ]
 }
