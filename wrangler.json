@@ -1,5 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mistake-notebook",
   "pages_build_output_dir": "dist",
   "d1_databases": [
     {
