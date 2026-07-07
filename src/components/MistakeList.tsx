@@ -481,9 +481,9 @@ export default function MistakeList({
       </div>
 
       {/* Mistake creation/edit modal */}
-      {showEditor && chapterId && (
+      {showEditor && (chapterId || editingMistake) && (
         <MistakeEditor
-          chapterId={chapterId}
+          chapterId={chapterId || (editingMistake ? editingMistake.chapter_id : null)}
           mistake={editingMistake}
           onClose={() => setShowEditor(false)}
           onSaveSuccess={() => {
