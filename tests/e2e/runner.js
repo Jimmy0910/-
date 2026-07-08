@@ -44,7 +44,7 @@ async function waitForPort(port, timeoutMs = 20000) {
   try {
     // 1. Build the frontend assets
     console.log('🔨 Step 1: Building frontend assets...');
-    execSync('npm run build', { stdio: 'inherit' });
+    execSync('npm run build:local', { stdio: 'inherit' });
 
     // 2. Clean previous test D1 state directory
     cleanTestState();

@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && powershell -Command \"Remove-Item -Recurse -Force dist; Copy-Item -Recurse -Force 'C:/Users/jimmy/AppData/Local/Temp/mistake-notebook-dist' 'dist'\"",
+    "build": "tsc -b && vite build",
+    "build:local": "tsc -b && vite build && powershell -Command \"Remove-Item -Recurse -Force dist; Copy-Item -Recurse -Force 'C:/Users/jimmy/AppData/Local/Temp/mistake-notebook-dist' 'dist'\"",
     "lint": "oxlint",
     "preview": "vite preview",
     "test:e2e": "node tests/e2e/runner.js"
