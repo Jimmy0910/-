@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { apiRequest } from '../utils/api';
-import { LogIn, UserPlus, Key, User } from 'lucide-react';
+import { LogIn, UserPlus, Key, User, ShieldCheck } from 'lucide-react';
 import logoUrl from '../assets/logo.png';
 
 interface AuthPageProps {
-  onLoginSuccess: (user: { id: string; username: string }) => void;
+  onLoginSuccess: (user: { id: string; username: string; is_admin: number }) => void;
 }
 
 export default function AuthPage({ onLoginSuccess }: AuthPageProps) {
@@ -14,6 +14,7 @@ export default function AuthPage({ onLoginSuccess }: AuthPageProps) {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [registerAsAdmin, setRegisterAsAdmin] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +32,7 @@ export default function AuthPage({ onLoginSuccess }: AuthPageProps) {
       } else {
         await apiRequest('/api/auth/register', {
           method: 'POST',
-          body: { username, password }
+          body: { username, password, ...(registerAsAdmin ? { registerAsAdmin: true } : {}) }
         });
         setSuccess('註冊成功！請直接登入。');
         setIsLogin(true);
@@ -206,12 +207,42 @@ export default function AuthPage({ onLoginSuccess }: AuthPageProps) {
               setIsLogin(!isLogin);
               setError('');
               setSuccess('');
+              setRegisterAsAdmin(false);
             }}
             disabled={loading}
           >
             {isLogin ? '立即註冊' : '前往登入'}
           </button>
         </div>
+
+        {/* Admin Registration Toggle */}
+        {!isLogin && (
+          <div style={{
+            marginTop: '12px',
+            textAlign: 'center',
+            fontSize: '0.85rem',
+          }}>
+            <button
+              type="button"
+              onClick={() => setRegisterAsAdmin(prev => !prev)}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: registerAsAdmin ? 'var(--accent-primary)' : 'var(--text-muted)',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontWeight: registerAsAdmin ? 600 : 400,
+                transition: 'color 0.2s'
+              }}
+              disabled={loading}
+            >
+              <ShieldCheck size={14} />
+              {registerAsAdmin ? '✓ 將以管理員身份註冊' : '以管理員身份註冊'}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

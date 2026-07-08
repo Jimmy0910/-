@@ -5,6 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    minify: true
+    outDir: 'C:/Users/jimmy/AppData/Local/Temp/mistake-notebook-dist',
+    emptyOutDir: true,
+    minify: false
   }
 })

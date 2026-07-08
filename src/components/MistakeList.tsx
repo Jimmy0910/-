@@ -62,6 +62,11 @@ export default function MistakeList({
   const [showEditor, setShowEditor] = useState(false);
   const [editingMistake, setEditingMistake] = useState<Mistake | null>(null);
 
+  // Filter states
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
+  const [masteryFilters, setMasteryFilters] = useState<string[]>(['會', '卡', '不會', '誤解']);
+
   const normalizeOptions = (options: any[] | undefined): FieldOption[] => {
     if (!options) return [];
     return options.map(opt => {
@@ -161,8 +166,64 @@ export default function MistakeList({
     }
   };
 
-  // Search filter
+  const getMasteryValues = (m: Mistake): string[] => {
+    let values: string[] = [];
+    
+    m.template_fields.answerFields?.forEach(f => {
+      if (f.type === 'options' && (f.label === '掌握度' || f.id.includes('mastery'))) {
+        const val = m.data.answerData?.[f.id];
+        if (Array.isArray(val)) {
+          values = [...values, ...val];
+        } else if (typeof val === 'string' && val) {
+          values.push(val);
+        }
+      }
+    });
+    
+    m.template_fields.questionFields?.forEach(f => {
+      if (f.type === 'options' && (f.label === '掌握度' || f.id.includes('mastery'))) {
+        const val = m.data.questionData?.[f.id];
+        if (Array.isArray(val)) {
+          values = [...values, ...val];
+        } else if (typeof val === 'string' && val) {
+          values.push(val);
+        }
+      }
+    });
+    
+    return values;
+  };
+
+  const getMappedDifficulties = (m: Mistake): string[] => {
+    const rawValues = getMasteryValues(m);
+    const mapped = new Set<string>();
+    rawValues.forEach(val => {
+      if (val === '順' || val === '會') {
+        mapped.add('會');
+      } else if (val === '卡') {
+        mapped.add('卡');
+      } else if (val === '不會') {
+        mapped.add('不會');
+      } else if (val === '誤解') {
+        mapped.add('誤解');
+      }
+    });
+    return Array.from(mapped);
+  };
+
+  const handleMasteryFilterChange = (level: string, checked: boolean) => {
+    setMasteryFilters(prev => {
+      if (checked) {
+        return prev.includes(level) ? prev : [...prev, level];
+      } else {
+        return prev.filter(item => item !== level);
+      }
+    });
+  };
+
+  // Search and filter (R4: Date and Difficulty Filters)
   const filteredMistakes = mistakes.filter(m => {
+    // 1. Search Query Filter
     const titleMatch = m.title.toLowerCase().includes(searchQuery.toLowerCase());
     
     // Also search in text/textarea question fields data
@@ -173,7 +234,26 @@ export default function MistakeList({
       );
     }
 
-    return titleMatch || dataMatch;
+    if (!titleMatch && !dataMatch) return false;
+
+    // 2. Date Range Filter
+    if (fromDate) {
+      const fromMs = new Date(fromDate + 'T00:00:00').getTime();
+      if (m.created_at < fromMs) return false;
+    }
+    if (toDate) {
+      const toMs = new Date(toDate + 'T23:59:59').getTime();
+      if (m.created_at > toMs) return false;
+    }
+
+    // 3. Difficulty/Mastery Filter
+    const difficulties = getMappedDifficulties(m);
+    if (difficulties.length > 0) {
+      const isFilteredOut = difficulties.some(d => !masteryFilters.includes(d));
+      if (isFilteredOut) return false;
+    }
+
+    return true;
   });
 
   // Mastery evaluation statistics
@@ -219,52 +299,132 @@ export default function MistakeList({
     <div style={{ flex: 1, padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px', overflowY: 'auto' }}>
       
       {/* Control bar */}
-      <div className="glass no-print" style={{ padding: '16px 24px', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
-        
-        {/* Search */}
-        <div style={{ position: 'relative', width: '300px' }}>
-          <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>
-            <Search size={16} />
-          </span>
-          <input
-            type="text"
-            className="input"
-            style={{ paddingLeft: '38px', height: '40px' }}
-            placeholder="搜尋題目或敘述..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+      <div className="glass no-print" style={{ padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {/* Search and Action buttons row */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '16px', width: '100%' }}>
+          {/* Search */}
+          <div style={{ position: 'relative', width: '300px', minWidth: '240px' }}>
+            <span style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>
+              <Search size={16} />
+            </span>
+            <input
+              type="text"
+              className="input"
+              style={{ paddingLeft: '38px', height: '40px' }}
+              placeholder="搜尋題目或敘述..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
+          {/* Global toggles and actions */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            {filteredMistakes.length > 0 && (
+              <>
+                <button className="btn btn-secondary" style={{ padding: '8px 14px', fontSize: '0.9rem' }} onClick={handleExpandAll}>
+                  <Eye size={16} /> 展開全部答案
+                </button>
+                <button className="btn btn-secondary" style={{ padding: '8px 14px', fontSize: '0.9rem' }} onClick={handleCollapseAll}>
+                  <EyeOff size={16} /> 收折全部答案
+                </button>
+              </>
+            )}
+
+            {chapterId ? (
+              <button
+                className="btn btn-primary"
+                style={{ padding: '8px 16px', fontSize: '0.9rem' }}
+                onClick={() => {
+                  setEditingMistake(null);
+                  setShowEditor(true);
+                }}
+              >
+                <Plus size={16} /> 新增錯題
+              </button>
+            ) : (
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                (請選擇特定章節以新增錯題)
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Global toggles and actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          {filteredMistakes.length > 0 && (
-            <>
-              <button className="btn btn-secondary" style={{ padding: '8px 14px', fontSize: '0.9rem' }} onClick={handleExpandAll}>
-                <Eye size={16} /> 展開全部答案
+        {/* Date and Difficulty Filters row */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '24px', borderTop: '1px solid var(--glass-border)', paddingTop: '16px', width: '100%' }}>
+          {/* Date range filter */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 500 }}>日期範圍：</span>
+            <input
+              type="date"
+              className="input"
+              style={{ width: '150px', height: '36px', padding: '6px 10px', fontSize: '0.85rem' }}
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+            />
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>至</span>
+            <input
+              type="date"
+              className="input"
+              style={{ width: '150px', height: '36px', padding: '6px 10px', fontSize: '0.85rem' }}
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+            />
+            {(fromDate || toDate) && (
+              <button
+                className="btn btn-text"
+                style={{ padding: '4px 8px', fontSize: '0.8rem', height: '36px' }}
+                onClick={() => {
+                  setFromDate('');
+                  setToDate('');
+                }}
+              >
+                清除
               </button>
-              <button className="btn btn-secondary" style={{ padding: '8px 14px', fontSize: '0.9rem' }} onClick={handleCollapseAll}>
-                <EyeOff size={16} /> 收折全部答案
-              </button>
-            </>
-          )}
+            )}
+          </div>
 
-          {chapterId ? (
-            <button
-              className="btn btn-primary"
-              style={{ padding: '8px 16px', fontSize: '0.9rem' }}
-              onClick={() => {
-                setEditingMistake(null);
-                setShowEditor(true);
-              }}
-            >
-              <Plus size={16} /> 新增錯題
-            </button>
-          ) : (
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-              (請選擇特定章節以新增錯題)
+          {/* Difficulty checkboxes */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 500 }}>掌握度：</span>
+            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', cursor: 'pointer', userSelect: 'none', color: 'var(--text-primary)' }}>
+                <input
+                  type="checkbox"
+                  className="input-checkbox"
+                  checked={masteryFilters.includes('會')}
+                  onChange={(e) => handleMasteryFilterChange('會', e.target.checked)}
+                />
+                <span>會</span>
+              </label>
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', cursor: 'pointer', userSelect: 'none', color: 'var(--text-primary)' }}>
+                <input
+                  type="checkbox"
+                  className="input-checkbox"
+                  checked={masteryFilters.includes('卡')}
+                  onChange={(e) => handleMasteryFilterChange('卡', e.target.checked)}
+                />
+                <span>卡</span>
+              </label>
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', cursor: 'pointer', userSelect: 'none', color: 'var(--text-primary)' }}>
+                <input
+                  type="checkbox"
+                  className="input-checkbox"
+                  checked={masteryFilters.includes('不會')}
+                  onChange={(e) => handleMasteryFilterChange('不會', e.target.checked)}
+                />
+                <span>不會</span>
+              </label>
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', cursor: 'pointer', userSelect: 'none', color: 'var(--text-primary)' }}>
+                <input
+                  type="checkbox"
+                  className="input-checkbox"
+                  checked={masteryFilters.includes('誤解')}
+                  onChange={(e) => handleMasteryFilterChange('誤解', e.target.checked)}
+                />
+                <span>誤解</span>
+              </label>
             </div>
-          )}
+          </div>
         </div>
       </div>
 

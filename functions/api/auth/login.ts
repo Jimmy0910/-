@@ -20,7 +20,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const trimmedUsername = username.trim();
 
     // Query user
-    const user = await env.DB.prepare('SELECT id, username, password_hash FROM users WHERE username = ?')
+    const user = await env.DB.prepare('SELECT id, username, password_hash, is_admin FROM users WHERE username = ?')
       .bind(trimmedUsername)
       .first() as any;
 
@@ -42,7 +42,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
     // Sign token
     const jwtSecret = env.JWT_SECRET || 'local-dev-jwt-secret-key-12345';
-    const payload = { id: user.id, username: user.username };
+    const payload = { id: user.id, username: user.username, is_admin: typeof user.is_admin === 'number' ? user.is_admin : 0 };
     const token = await signJWT(payload, jwtSecret);
 
     // Set cookie (HTTP-only)
@@ -51,7 +51,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
     return new Response(JSON.stringify({
       success: true,
-      user: { id: user.id, username: user.username }
+      user: { id: user.id, username: user.username, is_admin: typeof user.is_admin === 'number' ? user.is_admin : 0 }
     }), {
       status: 200,
       headers: {

@@ -11,7 +11,6 @@ node_modules
 dist
 dist-ssr
 *.local
-.wrangler
 
 # Editor directories and files
 .vscode/*
@@ -23,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local Agent & Wrangler files
+.agents/
+.wrangler/
+scratch/
+wrangler_output.txt
+PROJECT.md
+TEST_INFRA.md
+TEST_READY.md
+build_debug.log
+err.log
+out.log

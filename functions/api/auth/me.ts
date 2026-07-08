@@ -1,4 +1,4 @@
-export const onRequestGet: PagesFunction<any, any, { user?: { id: string; username: string } }> = async (context) => {
+export const onRequestGet: PagesFunction<any, any, { user?: { id: string; username: string; is_admin: number } }> = async (context) => {
   const { data } = context;
   
   if (!data.user) {

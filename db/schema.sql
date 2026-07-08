@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
     username TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
+    is_admin INTEGER DEFAULT 0,
     created_at INTEGER NOT NULL
 );
 
@@ -53,4 +54,14 @@ CREATE TABLE IF NOT EXISTS images (
     data BLOB NOT NULL,
     mime_type TEXT NOT NULL,
     created_at INTEGER NOT NULL
+);
+
+-- Feedback Table
+CREATE TABLE IF NOT EXISTS feedback (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    rating INTEGER NOT NULL,
+    comment TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );

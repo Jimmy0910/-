@@ -1,5 +1,5 @@
 # verify_gate.ps1
-# Project-specific AI Agent Quality and Security Verification Gate
+# Local AI Agent Quality and Security Verification Gate
 
 param (
     [switch]$AllowTodo = $false
@@ -13,7 +13,7 @@ Write-Host "==========================================" -ForegroundColor Cyan
 
 # 1. Define target extensions and excluded directories
 $ExcludeDirs = @(".git", ".agents", "node_modules", "dist")
-$TargetExtensions = @(".ipynb", ".py", ".js", ".ts", ".json", ".md", ".txt")
+$TargetExtensions = @(".ipynb", ".py", ".js", ".ts", ".tsx", ".json", ".md", ".txt")
 
 # Get Current Directory (the project directory being verified)
 $WorkspaceRoot = Get-Location
@@ -39,7 +39,9 @@ Write-Host "📂 Found $($Files.Count) files to verify..."
 foreach ($File in $Files) {
     $FilePath = $File.FullName
     $RelativePath = $FilePath.Replace($WorkspaceRoot, "")
-    $Content = (Get-Content -LiteralPath $FilePath) -join "`n"
+    $ContentLines = Get-Content -Path $FilePath
+    if ($null -eq $ContentLines) { continue }
+    $Content = [string]::Join("`n", $ContentLines)
 
     if ([string]::IsNullOrEmpty($Content)) { continue }
 
@@ -58,10 +60,6 @@ foreach ($File in $Files) {
         }
         
         if (-not $isPlaceholder -and $Value.Length -gt 3) {
-            # Bypass local development defaults / testing placeholders
-            if ($Value -eq "local-dev-jwt-secret-key-12345" -or $Value -eq "11111111-2222-3333-4444-555555555555") {
-                continue
-            }
             Write-Host "❌ [SECURITY ALERT] File $RelativePath suspected of hardcoded credentials: $Key = '$Value'" -ForegroundColor Red
             $ErrorCount++
         }

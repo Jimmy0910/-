@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && powershell -Command \"Remove-Item -Recurse -Force dist; Copy-Item -Recurse -Force 'C:/Users/jimmy/AppData/Local/Temp/mistake-notebook-dist' 'dist'\"",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e": "node tests/e2e/runner.js"
   },
   "dependencies": {
     "lucide-react": "^1.23.0",

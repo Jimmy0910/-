@@ -381,3 +381,162 @@ h1, h2, h3, h4, h5, h6 {
     page-break-inside: avoid !important;
   }
 }
+
+/* ========================================
+   Modal Overlay & Content
+   ======================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* ========================================
+   Sidebar Transitions
+   ======================================== */
+.sidebar {
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-collapsed {
+  width: 48px !important;
+}
+
+.sidebar-expanded {
+  width: 300px;
+}
+
+/* ========================================
+   Spin Animation (for loaders)
+   ======================================== */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* ========================================
+   Responsive Layout
+   ======================================== */
+
+/* Mobile: <768px */
+@media (max-width: 767px) {
+  /* Navbar responsive */
+  .top-navbar {
+    height: auto !important;
+    min-height: 56px;
+    padding: 8px 12px !important;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .navbar-brand {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .navbar-title {
+    font-size: 1rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .navbar-actions {
+    flex-wrap: wrap;
+    gap: 6px !important;
+    justify-content: flex-end;
+  }
+
+  .navbar-btn-text {
+    display: none;
+  }
+
+  .navbar-user-info {
+    display: none;
+  }
+
+  /* Sidebar defaults collapsed on mobile */
+  .sidebar-expanded {
+    position: fixed;
+    left: 0;
+    top: 56px;
+    z-index: 40;
+    width: 280px !important;
+    height: calc(100vh - 56px) !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+    background: var(--bg-secondary) !important;
+  }
+
+  .sidebar-collapsed {
+    width: 40px !important;
+  }
+
+  /* Main content full width */
+  .main-layout {
+    flex-direction: row;
+  }
+
+  /* Glass card adjustments */
+  .glass-card {
+    padding: 16px;
+  }
+
+  .glass {
+    padding: 16px;
+  }
+
+  /* Table responsive */
+  .glass-card table {
+    font-size: 0.8rem;
+  }
+
+  .glass-card th, .glass-card td {
+    padding: 8px 10px !important;
+  }
+}
+
+/* Tablet: 768px - 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .sidebar-expanded {
+    width: 240px !important;
+  }
+
+  .navbar-btn-text {
+    display: none;
+  }
+
+  .top-navbar {
+    padding: 0 16px !important;
+  }
+
+  .glass-card {
+    padding: 20px;
+  }
+}
+
+/* Desktop: >1024px */
+@media (min-width: 1025px) {
+  .sidebar-expanded {
+    width: 300px;
+  }
+}

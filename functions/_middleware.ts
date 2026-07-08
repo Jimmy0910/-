@@ -6,7 +6,7 @@ interface Env {
   JWT_SECRET?: string;
 }
 
-export const onRequest: PagesFunction<Env, any, { user?: { id: string; username: string } }> = async (context) => {
+export const onRequest: PagesFunction<Env, any, { user?: { id: string; username: string; is_admin: number } }> = async (context) => {
   const { request, env, next } = context;
   const url = new URL(request.url);
   
@@ -31,7 +31,11 @@ export const onRequest: PagesFunction<Env, any, { user?: { id: string; username:
   if (token) {
     const payload = await verifyJWT(token, jwtSecret);
     if (payload && payload.id && payload.username) {
-      user = { id: payload.id, username: payload.username };
+      user = {
+        id: payload.id,
+        username: payload.username,
+        is_admin: typeof payload.is_admin === 'number' ? payload.is_admin : 0
+      };
       context.data.user = user;
     }
   }
