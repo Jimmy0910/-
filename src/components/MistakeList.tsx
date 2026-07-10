@@ -550,19 +550,23 @@ export default function MistakeList({
                   </div>
 
                   {/* Actions */}
-                  <div style={{ display: 'flex', gap: '6px' }} className="no-print">
+                  <div style={{ display: 'flex', gap: '6px', position: 'relative', zIndex: 10, flexShrink: 0 }} className="no-print">
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setEditingMistake(m);
                         setShowEditor(true);
                       }}
-                      style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: '4px' }}
+                      style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', padding: '4px', position: 'relative', zIndex: 11 }}
                     >
                       <Edit2 size={14} />
                     </button>
                     <button
-                      onClick={() => handleDelete(m.id, m.title)}
-                      style={{ background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer', padding: '4px' }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(m.id, m.title);
+                      }}
+                      style={{ background: 'none', border: 'none', color: 'var(--danger)', cursor: 'pointer', padding: '4px', position: 'relative', zIndex: 11 }}
                     >
                       <Trash2 size={14} />
                     </button>

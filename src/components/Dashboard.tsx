@@ -320,25 +320,32 @@ export default function Dashboard({
                     </div>
                     
                     {/* Subject Actions */}
-                    <div style={{ display: 'flex', gap: '4px' }} className="actions-wrapper" onClick={(e) => e.stopPropagation()}>
+                    <div style={{ display: 'flex', gap: '4px', position: 'relative', zIndex: 10, flexShrink: 0 }} className="actions-wrapper">
                       <button
-                        onClick={() => handleRenameSubject(subject.id, subject.name)}
-                        style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRenameSubject(subject.id, subject.name);
+                        }}
+                        style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', position: 'relative', zIndex: 11 }}
                       >
                         <Edit2 size={12} />
                       </button>
                       <button
-                        onClick={() => handleDeleteSubject(subject.id, subject.name)}
-                        style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteSubject(subject.id, subject.name);
+                        }}
+                        style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', position: 'relative', zIndex: 11 }}
                       >
                         <Trash2 size={12} />
                       </button>
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           if (!isExpanded) toggleSubject(subject.id);
                           setShowAddChapter(prev => ({ ...prev, [subject.id]: !prev[subject.id] }));
                         }}
-                        style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}
+                        style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', position: 'relative', zIndex: 11 }}
                       >
                         <Plus size={14} />
                       </button>
@@ -412,25 +419,35 @@ export default function Dashboard({
                             </div>
 
                             {/* Chapter Actions */}
-                            <div style={{ display: 'flex', gap: '4px' }} onClick={(e) => e.stopPropagation()}>
+                            <div style={{ display: 'flex', gap: '4px', position: 'relative', zIndex: 10, flexShrink: 0 }}>
                               <button
-                                onClick={() => handleRenameChapter(chapter.id, subject.id, chapter.name)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRenameChapter(chapter.id, subject.id, chapter.name);
+                                }}
                                 style={{
                                   background: 'none',
                                   border: 'none',
                                   color: isSelected ? 'rgba(255,255,255,0.7)' : 'var(--text-muted)',
-                                  cursor: 'pointer'
+                                  cursor: 'pointer',
+                                  position: 'relative',
+                                  zIndex: 11
                                 }}
                               >
                                 <Edit2 size={10} />
                               </button>
                               <button
-                                onClick={() => handleDeleteChapter(chapter.id, subject.id, chapter.name)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteChapter(chapter.id, subject.id, chapter.name);
+                                }}
                                 style={{
                                   background: 'none',
                                   border: 'none',
                                   color: isSelected ? 'rgba(255,255,255,0.7)' : 'var(--text-muted)',
-                                  cursor: 'pointer'
+                                  cursor: 'pointer',
+                                  position: 'relative',
+                                  zIndex: 11
                                 }}
                               >
                                 <Trash2 size={10} />

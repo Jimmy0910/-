@@ -25,12 +25,12 @@ export default function UsageGuide() {
   const [activeTab, setActiveTab] = useState<string>('overview');
 
   const sections: GuideSection[] = [
-    { id: 'overview', title: '系統總覽', icon: BookOpen, description: '了解 PobiNotes 的核心概念與設計初衷' },
+    { id: 'overview', title: '系統總覽', icon: BookOpen, description: '了解核心概念與設計初衷' },
     { id: 'subjects', title: '科目與章節管理', icon: Folder, description: '如何建立、編輯與規劃您的學科結構' },
     { id: 'templates', title: '自訂模板設計', icon: Settings, description: '量身打造適合各學科的錯題欄位版面' },
     { id: 'mistakes', title: '錯題新增與圖片', icon: PlusCircle, description: '新增錯題、上傳圖片與填寫自訂欄位' },
     { id: 'filtering', title: '題目篩選系統', icon: Filter, description: '使用關鍵字、日期與難度交叉篩選題目' },
-    { id: 'exporting', title: '匯出為 PDF', icon: FileText, description: '批次選取錯題並匯出成無答案的練習本' },
+    { id: 'exporting', title: '匯出', icon: FileText, description: '批次選取錯題並匯出成無答案的練習本' },
     { id: 'feedback', title: '意見與評價回饋', icon: MessageSquare, description: '與我們分享您的使用體驗以持續改進' },
     { id: 'admin', title: '管理員系統', icon: Shield, description: '單一管理員註冊限制與後台管理功能說明' },
   ];
@@ -53,13 +53,13 @@ export default function UsageGuide() {
                 <HelpCircle size={24} />
               </div>
               <div>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 700 }}>歡迎使用 PobiNotes 錯題本！</h2>
+                <h2 style={{ fontSize: '1.5rem', fontWeight: 700 }}>歡迎使用錯題本！</h2>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>專為學生與學習者設計的數位化錯題整理與複習工具</p>
               </div>
             </div>
 
             <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '0.95rem' }}>
-              在學習的過程中，「從錯誤中學習」是最有效率的進步方式。PobiNotes 旨在幫助您整理各科目的錯題，並透過自訂欄位、標籤與快速搜尋，建立最適合您步調的複習資料庫。
+              在學習的過程中，「從錯誤中學習」是最有效率的進步方式。本系統旨在幫助您整理各科目的錯題，並透過自訂欄位、標籤與快速搜尋，建立最適合您步調的複習資料庫。
             </p>
 
             <div style={{
@@ -83,7 +83,7 @@ export default function UsageGuide() {
                   <strong style={{ color: 'var(--text-primary)' }}>整理您的錯題</strong>：填寫題目敘述、上傳題目或手寫解析照片，並為其標註難度。
                 </li>
                 <li>
-                  <strong style={{ color: 'var(--text-primary)' }}>篩選與匯出複習</strong>：利用篩選系統找出特定難度的錯題，批次匯出成 PDF，重新列印練習！
+                  <strong style={{ color: 'var(--text-primary)' }}>篩選與匯出複習</strong>：利用篩選系統找出特定難度的錯題，批次匯出，重新列印練習！
                 </li>
               </ol>
             </div>
@@ -124,16 +124,16 @@ export default function UsageGuide() {
               <Folder size={24} /> 科目與章節管理
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
-              PobiNotes 採用「科目 &gt; 章節 &gt; 錯題」的三層式結構。您可以透過側邊欄隨時維護您的學科分類：
+              此系統採用「科目 &gt; 章節 &gt; 錯題」的三層式結構。您可以透過側邊欄隨時維護您的學科分類：
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div style={{ display: 'flex', gap: '12px' }}>
                 <div style={{ color: 'var(--accent-primary)', marginTop: '2px' }}><CheckCircle2 size={18} /></div>
                 <div>
-                  <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>建立學科（Subject）</strong>
+                  <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>建立學科</strong>
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    點擊側邊欄「學科分類」標題右側的 <strong>+</strong> 按鈕，在出現的輸入框中鍵入您的學科名稱（例如：數學、化學、英文），然後點擊「新增」或按 Enter 即可。
+                    點擊側邊欄「學科分類」標題右側的 <strong>+</strong> 按鈕，在出現的輸入框中鍵入您的學科名稱（例如：數學、化學、英文），然後點擊「新增」或按確認鍵即可。
                   </span>
                 </div>
               </div>
@@ -154,7 +154,7 @@ export default function UsageGuide() {
               <div style={{ display: 'flex', gap: '12px' }}>
                 <div style={{ color: 'var(--accent-primary)', marginTop: '2px' }}><CheckCircle2 size={18} /></div>
                 <div>
-                  <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>章節管理（Chapter）</strong>
+                  <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>章節管理</strong>
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
                     展開學科後，點擊學科名稱最右側的 <strong>+</strong> 圖示，即可在該學科下新增一個子章節（例如：第二章 三角函數）。章節同樣支援點選右側的鉛筆圖示重新命名，或垃圾桶圖示刪除（會一併刪除該章節下的錯題）。
                   </span>
@@ -190,12 +190,12 @@ export default function UsageGuide() {
                 <div>
                   <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>規劃題目與答案欄位</strong>
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    模板分為「題目欄位（Question Fields）」與「答案欄位（Answer Fields）」兩大區塊。您可以點擊「新增欄位」來添加以下不同類型的元件：
+                    模板分為「題目欄位」與「答案欄位」兩大區塊。您可以點擊「新增欄位」來添加以下不同類型的元件：
                     <ul style={{ paddingLeft: '20px', marginTop: '6px', listStyleType: 'circle' }}>
-                      <li><strong>文字輸入（Text）</strong>：適合輸入短文字（如：來源出處、題號）。</li>
-                      <li><strong>長文字輸入（Textarea）</strong>：適合填寫大段敘述（如：題目原文、程式碼、多步驟解析）。</li>
-                      <li><strong>上傳圖片（Image）</strong>：適合存放題目截圖或手繪公式照片。</li>
-                      <li><strong>選擇題選項（Options）</strong>：可建立選單或標籤（如：錯因分析、關聯知識點），並可為各個選項標示不同顏色（如紅、黃、綠、藍）。</li>
+                      <li><strong>文字輸入</strong>：適合輸入短文字（如：來源出處、題號）。</li>
+                      <li><strong>長文字輸入</strong>：適合填寫大段敘述（如：題目原文、程式碼、多步驟解析）。</li>
+                      <li><strong>上傳圖片</strong>：適合存放題目截圖或手繪公式照片。</li>
+                      <li><strong>選擇題選項</strong>：可建立選單或標籤（如：錯因分析、關聯知識點），並可為各個選項標示不同顏色（如紅、黃、綠、藍）。</li>
                     </ul>
                   </span>
                 </div>
@@ -240,7 +240,7 @@ export default function UsageGuide() {
                 <div>
                   <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>選擇模板與基本資訊</strong>
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    輸入題目名稱，並在下拉選單中選擇要套用的模板。系統會隨即動態產生您在該模板中設計的全部欄位。同時，請選擇此錯題的難度等級：<strong>簡單、中等、困難、挑戰</strong>。
+                    輸入題目名稱，並在下拉選單中選擇要套用的模板。系統會隨即動態產生您在該模板中設計的全部欄位。同時，請選擇此錯題的難度等級：<strong>順、卡、不會、誤解</strong>。
                   </span>
                 </div>
               </div>
@@ -278,7 +278,7 @@ export default function UsageGuide() {
               <Filter size={24} /> 題目篩選系統
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
-              隨著錯題累積增加，如何快速找到需要複習的特定題目變得至關重要。PobiNotes 提供強大的多維度篩選系統：
+              隨著錯題累積增加，如何快速找到需要複習的特定題目變得至關重要。系統提供強大的多維度篩選系統：
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -297,7 +297,7 @@ export default function UsageGuide() {
                 <div>
                   <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>日期範圍篩選</strong>
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    點擊搜尋欄 right 側的「日期篩選」展開面板，您可以設定「開始日期」與「結束日期」，只顯示該時間區段內所新增的錯題。這非常適合用來進行「週複習」或「月考前複習」。
+                    點擊搜尋欄右側的「日期篩選」展開面板，您可以設定「開始日期」與「結束日期」，只顯示該時間區段內所新增的錯題。這非常適合用來進行「週複習」或「月考前複習」。
                   </span>
                 </div>
               </div>
@@ -307,7 +307,7 @@ export default function UsageGuide() {
                 <div>
                   <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>難度核取方塊交叉篩選</strong>
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    搜尋區下方提供四個難度標籤核取方塊：<strong>簡單、中等、困難、挑戰</strong>。您可以同時勾選多個難度。例如：同時勾選「困難」與「挑戰」，系統便會為您篩選出這兩個高難度級別的錯題，方便集中突破。
+                    搜尋區下方提供四個難度標籤核取方塊：<strong>順、卡、不會、誤解</strong>。您可以同時勾選多個難度。例如：同時勾選「不會」與「誤解」，系統便會為您篩選出這兩個難度級別的錯題，方便集中突破。
                   </span>
                 </div>
               </div>
@@ -319,10 +319,10 @@ export default function UsageGuide() {
         return (
           <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <h2 style={{ fontSize: '1.4rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '10px' }} className="title-gradient">
-              <FileText size={24} /> 匯出為 PDF
+              <FileText size={24} /> 匯出
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
-              PobiNotes 支援將選定的錯題批量匯出為 PDF 檔案，供您列印成紙本重新練習，或是另存於平板中進行數位複習。
+              本系統支援將選定的錯題批量匯出，供您列印成紙本重新練習，或是另存於平板中進行數位複習。
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -341,7 +341,7 @@ export default function UsageGuide() {
                 <div>
                   <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>進入匯出預覽頁面</strong>
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    選取錯題後，畫面右下角會浮現一個帶有 <strong>匯出所選 (N)</strong> 的懸浮按鈕。點擊該按鈕即可進入專屬的匯出排版預覽頁面。
+                    選取錯題後，畫面右下角會浮現一個帶有 <strong>匯出所選（數量）</strong> 的懸浮按鈕。點擊該按鈕即可進入專屬的匯出排版預覽頁面。
                   </span>
                 </div>
               </div>
@@ -351,7 +351,7 @@ export default function UsageGuide() {
                 <div>
                   <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>隱藏解析與下載</strong>
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    在匯出頁面頂部，您可以點擊勾選 <strong>隱藏答案與解析</strong>。此時，畫面上所有的答案文字與解析圖片皆會隱藏，方便您產出一份乾淨的「空白練習卷」。點擊「列印 / 匯出 PDF」即可呼叫瀏覽器列印視窗，將目標選擇為「另存為 PDF」儲存。
+                    在匯出頁面頂部，您可以點擊勾選 <strong>隱藏答案與解析</strong>。此時，畫面上所有的答案文字與解析圖片皆會隱藏，方便您產出一份乾淨的「空白練習卷」。點擊「列印 / 匯出」即可呼叫瀏覽器列印視窗，將目標選擇為「另存」儲存。
                   </span>
                 </div>
               </div>
@@ -366,7 +366,7 @@ export default function UsageGuide() {
               <MessageSquare size={24} /> 意見與評價回饋
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
-              我們非常重視您的使用體驗，並持續致力於使 PobiNotes 變得更好。
+              我們非常重視您的使用體驗，並持續致力於使系統變得更好。
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -375,7 +375,7 @@ export default function UsageGuide() {
                 <div>
                   <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>開啟回饋視窗</strong>
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    在畫面最頂端的導覽列（Navbar）中，您可以找到一個標示著 <strong>意見回饋</strong> 的按鈕。點擊它即可彈出回饋填寫視窗。
+                    在畫面最頂端的導覽列中，您可以找到一個標示著 <strong>意見回饋</strong> 的按鈕。點擊它即可彈出回饋填寫視窗。
                   </span>
                 </div>
               </div>
@@ -410,14 +410,14 @@ export default function UsageGuide() {
               <Shield size={24} /> 管理員系統
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
-              PobiNotes 內建管理員面板（Admin Panel），以協助進行基本的系統維護與使用者管理：
+              本系統內建管理員面板，以協助進行基本的系統維護與使用者管理：
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div style={{ display: 'flex', gap: '12px' }}>
                 <div style={{ color: 'var(--accent-primary)', marginTop: '2px' }}><CheckCircle2 size={18} /></div>
                 <div>
-                  <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>單一管理員註冊機制 (Single Admin Lock)</strong>
+                  <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>單一管理員註冊機制</strong>
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
                     系統為了防範管理員帳號被濫用或惡意註冊，採取<strong>單一管理員鎖定原則</strong>。
                     當系統資料庫中還沒有任何管理員時，首個在註冊頁面勾選「註冊為管理員」的使用者會成功升級為管理員。此後，<strong>管理員通道將自動關閉</strong>，任何人若再次嘗試以管理員身分註冊將會被系統拒絕。
@@ -430,7 +430,7 @@ export default function UsageGuide() {
                 <div>
                   <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>進入管理員面板</strong>
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
-                    若您登入的帳號具有管理員身份（`is_admin === 1`），頂部導覽列將會自動出現 <strong>管理員面板</strong> 按鈕。點擊後即可檢視後台管理介面。
+                    若您登入的帳號具有管理員身份（具備管理員權限），頂部導覽列將會自動出現 <strong>管理員面板</strong> 按鈕。點擊後即可檢視後台管理介面。
                   </span>
                 </div>
               </div>
@@ -479,7 +479,7 @@ export default function UsageGuide() {
           textTransform: 'uppercase', 
           letterSpacing: '0.1em' 
         }}>
-          PobiNotes Help Center
+          說明中心
         </span>
         <h1 style={{ fontSize: '2rem', fontWeight: 700 }} className="title-gradient">使用說明與教學手冊</h1>
       </div>

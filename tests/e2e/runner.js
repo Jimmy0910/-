@@ -19,7 +19,7 @@ function cleanTestState() {
 }
 
 // Helper to wait for the local port to become active
-async function waitForPort(port, timeoutMs = 20000) {
+async function waitForPort(port, timeoutMs = 60000) {
   const start = Date.now();
   console.log(`⏳ Waiting for local server on port ${port} to start...`);
   while (Date.now() - start < timeoutMs) {
@@ -67,7 +67,8 @@ async function waitForPort(port, timeoutMs = 20000) {
         'dist',
         '--port=8888',
         '--persist-to=.wrangler/test-state',
-        '--compatibility-date=2024-04-01'
+        '--compatibility-date=2024-04-01',
+        '--show-interactive-dev-session=false'
       ],
       { shell: true, stdio: 'pipe' }
     );
